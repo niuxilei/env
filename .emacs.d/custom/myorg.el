@@ -178,7 +178,7 @@
 (setq org-refile-use-outline-path t)
 
 ; Targets complete directly with IDO
-(setq org-outline-path-complete-in-steps nil)
+(setq org-soutline-path-complete-in-steps nil)
 
 ; Allow refile to create parent tasks with confirmation
 (setq org-refile-allow-creating-parent-nodes (quote confirm))
@@ -238,18 +238,19 @@
                             (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
                             (org-agenda-sorting-strategy
                              '(todo-state-down effort-up category-keep))))
+                (tags-todo "-HOLD-CANCELLED/!"
+                           ((org-agenda-overriding-header "Projects")
+                            (org-agenda-skip-function 'bh/skip-non-projects)
+                            (org-tags-match-list-sublevels nil)
+                            (org-agenda-sorting-strategy
+                             '(category-keep))))
+
                 (tags "REFILE"
                       ((org-agenda-overriding-header "Tasks to Refile")
                        (org-tags-match-list-sublevels nil)))
                 (tags-todo "-CANCELLED/!"
                            ((org-agenda-overriding-header "Stuck Projects")
                             (org-agenda-skip-function 'bh/skip-non-stuck-projects)
-                            (org-agenda-sorting-strategy
-                             '(category-keep))))
-                (tags-todo "-HOLD-CANCELLED/!"
-                           ((org-agenda-overriding-header "Projects")
-                            (org-agenda-skip-function 'bh/skip-non-projects)
-                            (org-tags-match-list-sublevels nil)
                             (org-agenda-sorting-strategy
                              '(category-keep))))
                 (tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
@@ -816,18 +817,25 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
 ;; org-pomodoro mode hooks
 (add-hook 'org-pomodoro-finished-hook
           (lambda ()
-            (notify-osx "Pomodoro completed!" "Time for a break.")))
-
+;; for mac
+;;            (notify-osx "Pomodoro completed!" "Time for a break.")))
+	     (org-notify "Pomodoro completed!" "Time for a break.")))
 (add-hook 'org-pomodoro-break-finished-hook
           (lambda ()
-            (notify-osx "Pomodoro Short Break Finished" "Ready for Another?")))
+;; for mac
+	    ;;            (notify-osx "Pomodoro Short Break Finished" "Ready for Another?")))
+	    (org-notify "Pomodoro Short Break Finished" "Ready for Another?")))
 
 (add-hook 'org-pomodoro-long-break-finished-hook
           (lambda ()
-            (notify-osx "Pomodoro Long Break Finished" "Ready for Another?")))
+;; for mac
+	    ;;            (notify-osx "Pomodoro Long Break Finished" "Ready for Another?")))
+	    (org-notify "Pomodoro Long Break Finished" "Ready for Another?")))
 
 (add-hook 'org-pomodoro-killed-hook
           (lambda ()
-            (notify-osx "Pomodoro Killed" "One does not simply kill a pomodoro!")))
+	    ;; for mac
+	    ;;            (notify-osx "Pomodoro Killed" "One does not simply kill a pomodoro!")))
+	  (org-notify "Pomodoro Killed" "One does not simply kill a pomodoro!")))
 
 (provide 'myorg)
