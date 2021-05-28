@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =7
+let g:netrw_dirhist_7='/Users/niuxilei/tmp'
+let g:netrw_dirhist_6='/Users/niuxilei/src/pmdk/src/libpmempool'
+let g:netrw_dirhist_5='/Users/niuxilei/src/pmdk/src'
+let g:netrw_dirhist_4='/Users/niuxilei/work/jimkv-v3/cmake'
+let g:netrw_dirhist_3='/Users/niuxilei/Downloads/maple-tree'
+let g:netrw_dirhist_2='/Users/niuxilei/src/hot/libs/hot/single-threaded/include/hot/singlethreaded'
+let g:netrw_dirhist_1='/'
+let g:netrw_dirhist_0='/Users/niuxilei/src/hot/libs/hot/single-threaded/include/hot/singlethreaded'
+let g:netrw_dirhist_9='/Users/niuxilei/work/jimkv-v3/server/src/db/rocksdb_impl'
+let g:netrw_dirhist_8='/Users/niuxilei/work/jimkv-v3/server/src/db'
