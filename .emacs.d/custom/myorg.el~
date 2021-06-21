@@ -105,8 +105,8 @@
        `((".*" ,temporary-file-directory t)))
 
 ;;(setq org-agenda-files (quote ("~/Org"
-(setq org-agenda-files (quote ("~/Datas/Repos/neworg/2021.org"
-			       "~/Datas/Repos/neworg/pkm.org" )))
+(setq org-agenda-files (quote ("~/neworg/2021.org"
+			       "~/neworg/pkm.org" )))
 			       ;;"~/Org/todo.org")))
 ;; todo keywords
 (setq org-todo-keywords
@@ -136,27 +136,27 @@
               ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
 
 
-(setq org-directory "~/Datas/Repos/neworg")
-(setq org-default-notes-file "~/Datas/Repos/neworg/refile.org")
+(setq org-directory "~/neworg")
+(setq org-default-notes-file "~/neworg/refile.org")
 
 ;; I use C-c c to start capture mode
 (global-set-key (kbd "C-c c") 'org-capture)
 
 ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
 (setq org-capture-templates
-      (quote (("t" "todo" entry (file "~/Datas/Repos/neworg/refile.org")
+      (quote (("t" "todo" entry (file "~/neworg/refile.org")
                "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
-              ("r" "respond" entry (file "~/Datas/Repos/neworg/refile.org")
+              ("r" "respond" entry (file "~/neworg/refile.org")
                "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
-              ("n" "note" entry (file "~/Datas/Repos/neworg/refile.org")
+              ("n" "note" entry (file "~/neworg/refile.org")
                "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
-              ("j" "Journal" entry (file+datetree "~/Datas/Repos/neworg/diary.org")
+              ("j" "Journal" entry (file+datetree "~/neworg/diary.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
-              ("w" "org-protocol" entry (file "~/Datas/Repos/neworg/refile.org")
+              ("w" "org-protocol" entry (file "~/neworg/refile.org")
                "* TODO Review %c\n%U\n" :immediate-finish t)
-              ("m" "Meeting" entry (file "~/Datas/Repos/neworg/refile.org")
+              ("m" "Meeting" entry (file "~/neworg/refile.org")
                "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
-              ("h" "Habit" entry (file "~/Datas/Repos/neworg/2021.org")
+              ("h" "Habit" entry (file "~/neworg/2021.org")
                "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
 
 
@@ -178,7 +178,7 @@
 (setq org-refile-use-outline-path t)
 
 ; Targets complete directly with IDO
-(setq org-soutline-path-complete-in-steps nil)
+(setq org-outline-path-complete-in-steps nil)
 
 ; Allow refile to create parent tasks with confirmation
 (setq org-refile-allow-creating-parent-nodes (quote confirm))
@@ -217,7 +217,7 @@
                ((org-agenda-overriding-header "Habits")
                 (org-agenda-sorting-strategy
                  '(todo-state-down effort-up category-keep))))
-              ("A" "Agenda"
+              (" " "Agenda"
                ((agenda "" nil)
                 ;;(tags "PLAN"
                   ;;    ((org-agenda-overriding-header "THIS WEEK'S PROJECT")
@@ -238,19 +238,18 @@
                             (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
                             (org-agenda-sorting-strategy
                              '(todo-state-down effort-up category-keep))))
-                (tags-todo "-HOLD-CANCELLED/!"
-                           ((org-agenda-overriding-header "Projects")
-                            (org-agenda-skip-function 'bh/skip-non-projects)
-                            (org-tags-match-list-sublevels nil)
-                            (org-agenda-sorting-strategy
-                             '(category-keep))))
-
                 (tags "REFILE"
                       ((org-agenda-overriding-header "Tasks to Refile")
                        (org-tags-match-list-sublevels nil)))
                 (tags-todo "-CANCELLED/!"
                            ((org-agenda-overriding-header "Stuck Projects")
                             (org-agenda-skip-function 'bh/skip-non-stuck-projects)
+                            (org-agenda-sorting-strategy
+                             '(category-keep))))
+                (tags-todo "-HOLD-CANCELLED/!"
+                           ((org-agenda-overriding-header "Projects")
+                            (org-agenda-skip-function 'bh/skip-non-projects)
+                            (org-tags-match-list-sublevels nil)
                             (org-agenda-sorting-strategy
                              '(category-keep))))
                 (tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
@@ -817,25 +816,18 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
 ;; org-pomodoro mode hooks
 (add-hook 'org-pomodoro-finished-hook
           (lambda ()
-;; for mac
-;;            (notify-osx "Pomodoro completed!" "Time for a break.")))
-	     (org-notify "Pomodoro completed!" "Time for a break.")))
+            (notify-osx "Pomodoro completed!" "Time for a break.")))
+
 (add-hook 'org-pomodoro-break-finished-hook
           (lambda ()
-;; for mac
-	    ;;            (notify-osx "Pomodoro Short Break Finished" "Ready for Another?")))
-	    (org-notify "Pomodoro Short Break Finished" "Ready for Another?")))
+            (notify-osx "Pomodoro Short Break Finished" "Ready for Another?")))
 
 (add-hook 'org-pomodoro-long-break-finished-hook
           (lambda ()
-;; for mac
-	    ;;            (notify-osx "Pomodoro Long Break Finished" "Ready for Another?")))
-	    (org-notify "Pomodoro Long Break Finished" "Ready for Another?")))
+            (notify-osx "Pomodoro Long Break Finished" "Ready for Another?")))
 
 (add-hook 'org-pomodoro-killed-hook
           (lambda ()
-	    ;; for mac
-	    ;;            (notify-osx "Pomodoro Killed" "One does not simply kill a pomodoro!")))
-	  (org-notify "Pomodoro Killed" "One does not simply kill a pomodoro!")))
+            (notify-osx "Pomodoro Killed" "One does not simply kill a pomodoro!")))
 
 (provide 'myorg)
